@@ -80,11 +80,12 @@ const UserSignup = () => {
                     <button className='bg-[#111] text-white font-semibold mb-3 rounded px-4 py-2 w-full text-lg placeholder:text-base'>Login</button>
                     <p className='text-center'>Alredy have an account <Link to='/login' className='text-blue-600'>Login Here</Link></p>
                 </form>
-
-                <p className='text-sm py-5 text-gray-500 leading-tight'>By proceeding, you consent to receiving calls, WhatsApp or SMS/RCS messages, including by automated means, from Uber and its affiliates to the number provided.</p>
+ <p className='text-sm py-5 text-gray-500 leading-tight'>By proceeding, you consent to receiving calls, WhatsApp or SMS/RCS messages, including by automated means, from Uber and its affiliates to the number provided.</p>
             </div>
-               <p className='text-sm py-5 text-gray-500 leading-tight'>This site is protected by reCAPTCHA and the <span className='underline'>Google Privacy Policy</span> and <span className='underline'>Terms of Service apply</span>.</p>
-        </div>
+            
+            <p className='text-sm pt-5 text-gray-500 leading-tight'>This site is protected by reCAPTCHA and the <span className='underline text-black'>Google Privacy Policy</span> and <span className='underline text-black'>Terms of Service apply</span>.</p>
+            
+            </div>
     )
 }
 

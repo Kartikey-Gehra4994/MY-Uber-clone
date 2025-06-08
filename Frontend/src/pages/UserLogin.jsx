@@ -8,7 +8,7 @@ const Userlogin = () => {
     const [password, setPassword] = useState('')
     const [userData, setuserData] = useState({})
 
-    const submitHandler = (e)=>{
+    const submitHandler = (e) => {
         e.preventDefault();
         setuserData({
             email: email,
@@ -24,7 +24,7 @@ const Userlogin = () => {
 
             <div>
                 <img className='w-16 mb-10' src="https://freelogopng.com/images/all_img/1659761100uber-logo-png.png" alt="" />
-                <form onSubmit={(e)=>submitHandler(e)}>
+                <form onSubmit={(e) => submitHandler(e)}>
                     <h3 className='text-lg font-medium mb-2'>what's your email</h3>
                     <input
                         className='bg-[#eeeeee] mb-7 rounded px-4 py-2 border w-full text-lg placeholder:text-base'
@@ -45,10 +45,11 @@ const Userlogin = () => {
                     <button className='bg-[#111] text-white font-semibold mb-3 rounded px-4 py-2 w-full text-lg placeholder:text-base'>Login</button>
                     <p className='text-center'>New here? <Link to='/signup' className='text-blue-600'>Create new Account</Link></p>
                 </form>
+                <p className='text-sm py-5 text-gray-500 leading-tight'>By proceeding, you consent to receiving calls, WhatsApp or SMS/RCS messages, including by automated means, from Uber and its affiliates to the number provided.</p>
             </div>
-
             <div>
                 <Link to='/captain-login' className='bg-green-600 flex items-center justify-center text-white font-semibold mb-2 rounded px-4 py-2 w-full text-lg placeholder:text-base'>Sign as Captain</Link>
+            <p className='text-sm pt-5 text-gray-500 leading-tight'>This site is protected by reCAPTCHA and the <span className='underline text-black'>Google Privacy Policy</span> and <span className='underline text-black'>Terms of Service apply</span>.</p>
             </div>
         </div>
     )
