@@ -42,23 +42,15 @@ module.exports.loginUser = async (req, res, next) => {
 
     const { email, password } = req.body;
 
-    const isUserAlready = await userModel.findOne({ email }).select('+password');
-    if (!isUserAlready) {
+    const user = await userModel.findOne({ email }).select('+password');
+    if (!user) {
         return res.status(401).json({ message: 'User already exist' });
     }
 
-    const hashedPassword = await userModel.hashPassword(password)
-    const user = await userService.createUser({
-        firstname: fullname.firstname,
-        lastname: fullname.lastname,
-        email,
-        password: hashedPassword
-    });
-
-    // const isPasswordValid = await user.comparePassword(password);
-    // if (!isPasswordValid) {
-    //     return res.status(401).json({ message: 'Invalid email or password' });
-    // }
+    const isMatch = await user.comparePassword(password);
+    if (!isMatch) {
+        return res.status(401).json({ message: 'Invalid email or password' });
+    }
 
     const token = user.generateAuthToken();
 
