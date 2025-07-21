@@ -40,6 +40,7 @@ const UserProtectWrapper = ({
     useEffect(() => {
         if (!token) {
             navigate('/login')
+            return
         }
 
         axios.get(`${import.meta.env.VITE_BASE_URL}/users/profile`, {
@@ -48,17 +49,15 @@ const UserProtectWrapper = ({
             }
         }).then(response => {
             if (response.status === 200) {
-                console.log("User profile fetched successfully:", response.data);
                 setUser(response.data)
                 setIsLoading(false)
             }
         })
             .catch(err => {
-                console.log(err)
-                localStorage.removeItem('token')
+               localStorage.removeItem('token')
                 navigate('/login')
             })
-    }, [ token ])
+    }, [ token, navigate, setUser ])
 
     if (isLoading) {
         return (

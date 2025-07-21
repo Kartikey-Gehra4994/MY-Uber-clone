@@ -61,11 +61,6 @@ const CaptainSignup = () => {
         setVehicleType('');
     }
 
-    // useEffect(() => {
-    //   console.log("Ok",userData);
-
-    // }, [userData])
-
     return (
         <div className='px-5 py-3 h-screen flex flex-col justify-between'>
 

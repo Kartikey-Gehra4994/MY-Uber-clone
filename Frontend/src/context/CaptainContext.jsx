@@ -1,4 +1,4 @@
-import { createContext, useState, useContext } from "react";
+import { createContext, useState, useContext} from "react";
 
 export const CaptainDataContext = createContext();
 
@@ -8,6 +8,7 @@ const CaptainContext = ({ children }) => {
     const [error, setError] = useState(null);
 
     const updateCaptain = (captainData) => {
+        console.log("🔄 Updating captain data:", captainData);
         setCaptain(captainData);
     }
 

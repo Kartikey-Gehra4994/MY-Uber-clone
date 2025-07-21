@@ -162,10 +162,8 @@ const ConfirmRide = (props) => {
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
-      // setConfirmRidePanel(false);
       props.setWaitingDriver(true);
-      // props.setVehicleFound(true);
-      // props.createRide();
+      props.createRide();
     }, 2000);
   };
 
@@ -196,7 +194,7 @@ const ConfirmRide = (props) => {
           <RiMapPinUserFill className="text-blue-600 text-xl mt-1" />
           <div>
             <h4 className="text-base font-semibold">562/11-A</h4>
-            <p className="text-xs text-gray-500 -mt-1">Kankariya Talab, Ahmedabad</p>
+            <p className="text-lg text-gray-700 -mt-1">{props.pickup}</p>
           </div>
         </div>
 
@@ -204,15 +202,15 @@ const ConfirmRide = (props) => {
           <RiMapPin2Fill className="text-red-500 text-xl mt-1" />
           <div>
             <h4 className="text-base font-semibold">Plot 21, Sector 18</h4>
-            <p className="text-xs text-gray-500 -mt-1">Noida, Uttar Pradesh</p>
+            <p className="text-lg text-gray-700 -mt-1">{props.destination}</p>
           </div>
         </div>
 
         <div className="flex items-start gap-3 bg-gray-100 rounded-xl px-4 py-3 shadow-sm">
           <RiCurrencyLine className="text-green-600 text-xl mt-1" />
           <div>
-            <h4 className="text-base font-semibold">₹193.20</h4>
-            <p className="text-xs text-gray-500 -mt-1">Cash Payment</p>
+            <h4 className="text-base font-semibold">₹{props.fare[props.vehicleType]}</h4>
+            <p className="text-lg text-gray-700 -mt-1">Cash Payment</p>
           </div>
         </div>
       </div>

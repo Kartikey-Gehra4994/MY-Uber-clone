@@ -14,30 +14,32 @@ const CaptainProtectWrapper = ({ children }) => {
     useEffect(() => {
         if (!token) {
             navigate('/captain-login')
+            return
         }
-    }, [token, navigate])
 
-    // axios.get(`${import.meta.env.VITE_BASE_URL}/captains/profile`, {
-    //     headers: {
-    //         Authorization: `Bearer ${token}`,
-    //     }
-    // }).then((response) => {
-    //     if (response.status === 200) {
-    //         console.log("Captain profile fetched successfully:", response.data);
-    //         setCaptain(response.data)
-    //         setisLoading(false)
-    //     }
-    // })
-    // .catch((error) => {
-    //     console.log("Error fetching captain profile:", error);
-    //     localStorage.removeItem('token')
-    //     navigate('/captain-login')
-    // })
+        // Fetch captain profile
+        axios.get(`${import.meta.env.VITE_BASE_URL}/captains/profile`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            }
+        }).then((response) => {
+            if (response.status === 200) {
+                 setCaptain(response.data.captain)
+                setisLoading(false)
+            }
+        })
+        .catch((error) => {
+            console.log("❌ Error fetching captain profile:", error);
+            localStorage.removeItem('token')
+            navigate('/captain-login')
+        })
+    }, [ token ])
 
-    // if (isLoading) {
-    //     return <div>Loading...</div>
-
-    // }
+    if (isLoading) {
+        return <div className="flex items-center justify-center h-screen">
+            <div className="text-lg">Loading Captain Data...</div>
+        </div>
+    }
 
 
     return (

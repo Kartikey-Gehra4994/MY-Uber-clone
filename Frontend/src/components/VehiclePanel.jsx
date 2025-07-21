@@ -25,7 +25,7 @@ const VehiclePanel = (props) => {
             <div
                 onClick={() => {
                     props.setConfirmRidePanel(true)
-                    // props.setVehiclePanel(false)
+                    props.selectVehicleType("car")
                 }}
                 className='flex justify-between p-4 mb-4 rounded-xl shadow-md hover:shadow-2xl border border-gray-200 cursor-pointer transition duration-300 bg-gray-50'
             >
@@ -37,14 +37,14 @@ const VehiclePanel = (props) => {
                         <p className='text-xs text-gray-400'>Affordable, compact rides</p>
                     </div>
                 </div>
-                <h2 className='text-lg font-bold text-gray-800'>₹193.20</h2>
+                <h2 className='text-lg font-bold text-gray-800'>₹{props.fare.car || 0}</h2>
             </div>
 
             {/* Vehicle Option 2 */}
             <div
                 onClick={() => {
                     props.setConfirmRidePanel(true)
-                    // props.setVehiclePanel(false)
+                    props.selectVehicleType("bike")
                 }}
                 className='flex justify-between p-4 mb-4 rounded-xl shadow-md hover:shadow-2xl border border-gray-200 cursor-pointer transition duration-300 bg-gray-50'
             >
@@ -56,14 +56,14 @@ const VehiclePanel = (props) => {
                         <p className='text-xs text-gray-400'>Affordable motorcycle rides</p>
                     </div>
                 </div>
-                <h2 className='text-lg font-bold text-gray-800'>₹65</h2>
+                <h2 className='text-lg font-bold text-gray-800'>₹{props.fare.bike || 0}</h2>
             </div>
 
             {/* Vehicle Option 3 */}
             <div
                 onClick={() => {
                     props.setConfirmRidePanel(true)
-                    // props.setVehiclePanel(false)
+                    props.selectVehicleType("auto")
                 }}
                 className='flex justify-between p-4 mb-4 rounded-xl shadow-md hover:shadow-2xl border border-gray-200 cursor-pointer transition duration-300 bg-gray-50'
             >
@@ -75,7 +75,7 @@ const VehiclePanel = (props) => {
                         <p className='text-xs text-gray-400'>Affordable auto rides</p>
                     </div>
                 </div>
-                <h2 className='text-lg font-bold text-gray-800'>₹118.68</h2>
+                <h2 className='text-lg font-bold text-gray-800'>₹{props.fare.auto || 0}</h2>
             </div>
         </div>
     )

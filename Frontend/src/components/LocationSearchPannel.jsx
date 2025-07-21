@@ -1,23 +1,40 @@
 import { MdLocationPin } from "react-icons/md";
 
 const LocationSearchPanel = (props) => {
-  const locations = [
-    "123, Green Park, New Delhi",
-    "45, Residency Road, Bangalore",
-    "89, MG Road, Mumbai",
-    "Plot 12, Sector 18, Noida",
-  ];
+  const { 
+    suggestions = [], 
+    setPanelOpen, 
+    setVehiclePanelOpen, 
+    setPickup, 
+    setDestination, 
+    activeField 
+  } = props;
+
+  const handleSuggestionClick = (suggestion) => {
+    if (activeField === 'pickup') {
+      setPickup(suggestion);
+    } else if (activeField === 'destination') {
+      setDestination(suggestion);
+    }
+  };
+
+  // // Show default locations if no suggestions
+  // const defaultLocations = [
+  //   "123, Green Park, New Delhi",
+  //   "45, Residency Road, Bangalore", 
+  //   "89, MG Road, Mumbai",
+  //   "Plot 12, Sector 18, Noida",
+  // ];
+
+  const locationsToShow = suggestions;
 
   return (
     <div className="space-y-6">
-      {locations.map((loc, index) => (
+      {locationsToShow.map((loc, index) => (
         <div
-          onClick={() => {
-            props.setPanelOpen(false);
-            props.setVehiclePanelOpen(true)
-          }}
+          onClick={() => handleSuggestionClick(loc)}
           key={index}
-          className="relative flex items-center gap-4 p-4 rounded-2xl bg-white/30 backdrop-blur-md border border-gray-200 shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 group"
+          className="relative flex items-center gap-4 p-4 rounded-2xl bg-white/30 backdrop-blur-md border border-gray-200 shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 group cursor-pointer"
         >
           {/* Icon circle */}
           <div className="w-8 h-8 flex items-center justify-center bg-gradient-to-tr from-purple-600 to-indigo-600 text-white rounded-full shadow-lg group-hover:scale-105 transition-transform duration-300">
