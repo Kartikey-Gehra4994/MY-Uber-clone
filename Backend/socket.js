@@ -16,16 +16,33 @@ function initializeSocket(server) {
         console.log(`A user connected: ${socket.id}`);
 
         socket.on('join', async (data) => {
-         const { userId, userType } = data;
+            const { userId, userType } = data;
 
-        console.log(`User joined: ${userId}, Type: ${userType}`);
-         
-        if (userType === 'user') {
-            await userModel.findByIdAndUpdate(userId, { socketId: socket.id });
-        } else if (userType === 'captain') {
-            await captainModel.findByIdAndUpdate(userId, { socketId: socket.id });
-        }
-    });
+            console.log(`User joined: ${userId}, Type: ${userType}`);
+
+            if (userType === 'user') {
+                await userModel.findByIdAndUpdate(userId, { socketId: socket.id });
+            } else if (userType === 'captain') {
+                await captainModel.findByIdAndUpdate(userId, { socketId: socket.id });
+            }
+        });
+
+        socket.on("update-location-captain", async (data) => {
+            const { userId, location } = data;
+          
+            // Validate location data
+            if (!location || typeof location.lat !== 'number' || typeof location.lng !== 'number') {
+                console.error("Invalid location data:", location);
+                return;
+            }
+
+            await captainModel.findByIdAndUpdate(userId, {
+                location: {
+                    lat: location.lat,
+                    lng: location.lng
+                }
+            });
+        });
 
         socket.on('disconnect', () => {
             console.log(`User disconnected: ${socket.id}`);
@@ -35,9 +52,14 @@ function initializeSocket(server) {
     return io;
 }
 
-function sendMessageToSocketId(socketId, message) {
+function sendMessageToSocketId(socketId, messageObject) {
+    
+    console.log(`Sending message to socketId: ${socketId}`, messageObject);
+
     if (io) {
-        io.to(socketId).emit("message", message);
+        io.to(socketId).emit(messageObject.event, messageObject.data);
+    } else {
+        console.error("Socket.io is not initialized.");
     }
 }
 

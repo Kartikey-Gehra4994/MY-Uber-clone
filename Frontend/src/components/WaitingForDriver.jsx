@@ -26,7 +26,7 @@ const WaitingForDriver = (props) => {
             <div className="flex items-center justify-between gap-4 mt-10 mb-10">
 
                 <div className='flex '>
-                    <img className="h-16 rounded-full mt-[10px] z-10" src="kartik_1.jpg" alt="Driver" />
+                    <img className="h-14 rounded-full mt-[10px] z-10" src="kartik_1.jpg" alt="Driver" />
                     <img
                         className="h-16 w-24 object-cover ml-[-20px] mt-[40px] "
                         src="https://swyft.pl/wp-content/uploads/2023/05/how-many-people-can-a-uberx-take.jpg"
@@ -34,10 +34,10 @@ const WaitingForDriver = (props) => {
                     />
                 </div>
                 <div className="text-right">
-                    <h2 className="text-xl font-semibold">Kartikey Gehra</h2>
+                    <h2 className="text-xl font-semibold">{props.ride?.captain.fullname.firstname} {props.ride?.captain.fullname.lastname}</h2>
                     <p className="text-base text-gray-500">White Suzuki Alto</p>
-                    <p className="text-base font-medium text-gray-700">UP 15 BN 3119</p>
-                    <p className="text-base text-green-600 font-bold">OTP: 99999</p>
+                    <p className="text-2xl font-bold text-gray-700">{props.ride?.captain.vehicle.plate}</p>
+                    <p className="text-base text-green-600 font-bold">OTP: {props.ride?.otp}</p>
                 </div>
             </div>
 
@@ -57,7 +57,7 @@ const WaitingForDriver = (props) => {
                     <RiMapPinUserFill className="text-xl text-blue-600 mt-1" />
                     <div>
                         <p className="text-base text-gray-400">Pickup</p>
-                        <h4 className="text-lg font-medium">{props.pickup || '562/11-A'}</h4>
+                        <h4 className="text-lg font-medium">{props.ride?.pickup}</h4>
 
                     </div>
                 </div>
@@ -66,16 +66,16 @@ const WaitingForDriver = (props) => {
                     <RiMapPin2Fill className="text-xl text-red-600 mt-1" />
                     <div>
                         <p className="text-base text-gray-400">Destination</p>
-                        <h4 className="text-lg font-medium">{props.destination || 'Shastri Nagar'}</h4>
+                        <h4 className="text-lg font-medium">{props.ride?.destination}</h4>
 
                     </div>
                 </div>
 
-                <div className="flex gap-3 items-start just">
+                <div className="flex gap-3 items-start">
                     <RiCurrencyLine className="text-xl text-green-600 mt-1" />
                     <div>
                         <p className="text-base text-gray-400">Fare</p>
-                        <h4 className="text-lg font-medium">₹{props.fare?.[props.vehicleType] || 999}</h4>
+                        <h4 className="text-lg font-medium">₹{props.ride?.fare}</h4>
                         <p className="text-sm text-gray-500">Cash Cash</p>
                     </div>
                 </div>

@@ -18,7 +18,7 @@ const RidePopUp = (props) => {
                         alt=""
                     />
                     <h2 className="text-xl font-semibold text-white">
-                        Billy Eilish
+                        {props.ride?.user.fullname.firstname} {props.ride?.user.fullname.lastname}
                     </h2>
                 </div>
                 <h5 className="text-lg font-bold text-white">📍 2.2 KM</h5>
@@ -27,18 +27,18 @@ const RidePopUp = (props) => {
             {/* Ride Details */}
             <div className="bg-black/60 backdrop-blur-md text-gray-400 rounded-xl overflow-hidden shadow-sm divide-y divide-gray-200">
                 <div className="flex items-start gap-4 p-4">
-                    <RiMapPinUserFill className="text-blue-600 text-4xl mt-[-8px]" />
+                    <RiMapPinUserFill className="text-blue-600 text-xl" />
                     <div>
                         <h4 className="text-sm font-bold">Pickup</h4>
-                        <p className="text-base text-gray-200">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Impedit, voluptatem.</p>
+                        <p className="text-base text-gray-200">{props.ride?.pickup}</p>
                     </div>
                 </div>
 
                 <div className="flex items-start gap-4 p-4">
-                    <RiMapPin2Fill className="text-red-500 text-4xl mt-[-8px]" />
+                    <RiMapPin2Fill className="text-red-500 text-xl" />
                     <div>
                         <h4 className="text-sm font-bold">Drop-off</h4>
-                        <p className="text-base text-gray-200">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Impedit, voluptatem.</p>
+                        <p className="text-base text-gray-200">{props.ride?.destination}</p>
                     </div>
                 </div>
 
@@ -46,7 +46,7 @@ const RidePopUp = (props) => {
                     <RiCurrencyLine className="text-green-500 text-xl" />
                     <div>
                         <h4 className="text-sm font-bold">Fare</h4>
-                        <p className="text-base text-gray-200">₹999 — Cash</p>
+                        <p className="text-base text-gray-200">₹{props.ride?.fare}</p>
                     </div>
                 </div>
             </div>
@@ -62,7 +62,8 @@ const RidePopUp = (props) => {
                 <button
                     onClick={() => { 
                         props.setConfirmRidePopupPanel(true);
-                        props.setRidePopupPanel(false)
+                        props.setRidePopupPanel(false);
+                        props.confirmRide();
                     }}
                     className="bg-white/20 backdrop-blur-md text-white font-semibold py-2 px-6 rounded-md transition w-[50vw]"
                 >

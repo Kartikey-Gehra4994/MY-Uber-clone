@@ -2,23 +2,53 @@ import React, { useState, useRef } from 'react'
 import { FaSpinner } from 'react-icons/fa';
 import { RiMapPinUserFill, RiMapPin2Fill, RiArrowDownWideFill, RiCurrencyLine } from 'react-icons/ri'
 import { useGSAP } from '@gsap/react';
+import { useLocation } from 'react-router-dom';
 import gsap from 'gsap';
+import { useNavigate } from 'react-router-dom';
+import { useEffect, useContext } from 'react';
+import { SocketContext } from '../context/SocketContext';
+import LiveTracking from '../components/LiveTracking';
+
 
 const Riding = () => {
 
     const [loading, setLoading] = useState(false);
     const [paymentpanel, setPaymentPanel] = useState(false);
+    const location = useLocation();
+    const { ride } = location.state || {};
+    const navigate = useNavigate();
+    const { socket } = useContext(SocketContext);
 
     const paymentRef = useRef(null)
+
+    // Debug log to check if ride data is received
+    console.log("Ride data in Riding component:", ride);
+
+    useEffect(() => {
+        if (!socket) return; // Prevent crash if socket is null
+
+        const handleRideEnded = () => {
+            console.log('Ride ended, navigating to home');
+            navigate('/home');
+        };
+
+        socket.on('ride-ended', handleRideEnded);
+
+        return () => {
+            socket.off('ride-ended', handleRideEnded);
+        };
+    }, [socket, navigate]);
+
 
     const handleConfirm = () => {
         setLoading(true);
         setTimeout(() => {
             setLoading(false);
             // setConfirmRidePanel(false);
-            props.setWaitingDriver(true);
+            // props.setWaitingDriver(true);
             // props.setVehicleFound(true);
             // props.createRide();
+            navigate('/home');
         }, 2000);
     };
 
@@ -37,9 +67,9 @@ const Riding = () => {
     return (<>
         <div className='relative'>
             <div className=' h-[100vh]  '>
-                <img className='object-cover w-full h-full' src="https://i.pinimg.com/736x/10/ca/5e/10ca5ebe45e496cb2cadb4c71bfaf7f3.jpg" alt="" />
+                <LiveTracking />
             </div>
-            <div ref={paymentRef} className='bg-white/10 backdrop-blur-md w-full px-6 absolute bottom-0 translate-y-[55%] rounded-2xl '>
+            <div ref={paymentRef} className='bg-white/10 backdrop-blur-md w-full px-6 absolute bottom-0 translate-y-[55%] z-[1000] rounded-2xl '>
 
                 <div
                     onClick={() => setPaymentPanel(!paymentpanel)}
@@ -59,30 +89,36 @@ const Riding = () => {
                         />
                     </div>
                     <div className="text-right">
-                        <h2 className="text-xl font-semibold">Kartikey Gehra</h2>
-                        <p className="text-base text-gray-500">White Suzuki Alto</p>
-                        <p className="text-base font-medium text-gray-700">UP 15 BN 3119</p>
+                        <h2 className="text-xl font-semibold">
+                            {ride?.captain?.fullname?.firstname || 'Driver'} {ride?.captain?.fullname?.lastname || 'Name'}
+                        </h2>
+                        <p className="text-base text-gray-500">
+                            {ride?.captain?.vehicle?.color || 'White'} {ride?.captain?.vehicle?.vehicleType || 'Car'}
+                        </p>
+                        <p className="text-base font-medium text-gray-700">
+                            {ride?.captain?.vehicle?.plate || 'Loading...'}
+                        </p>
                     </div>
                 </div>
 
                 <div className="space-y-2 py-5">
                     <div className='bg-black/20 backdrop-blur-md space-y-4 pl-4 py-2 rounded-xl'>
 
-
                         <div className="flex gap-3 items-start">
                             <RiMapPinUserFill className="text-xl text-blue-600 mt-1" />
                             <div>
                                 <p className="text-base text-gray-600">Current Location</p>
-                                <h4 className="text-lg font-medium">562/11-A</h4>
+                                <h4 className="text-lg font-medium">{ride?.destination || 'Loading destination...'}</h4>
                             </div>
                         </div>
+
                     </div>
 
                     <div className="flex items-start gap-3 rounded-xl px-4 py-3">
                         <RiCurrencyLine className="text-green-600 text-xl mt-1" />
                         <div>
                             <p className="text-base text-gray-500 -mt-1">Cash Payment</p>
-                            <h4 className="text-lg font-semibold">₹193.20</h4>
+                            <h4 className="text-lg font-semibold">₹{ride?.fare || '0.00'}</h4>
                         </div>
                     </div>
 

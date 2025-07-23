@@ -28,7 +28,7 @@ const CaptainHome = () => {
   const ridePopupPanelRef = useRef(null)
   const confirmRidePopupPanelRef = useRef(null)
 
-  const [ridePopupPanel, setRidePopupPanel] = useState(true)
+  const [ridePopupPanel, setRidePopupPanel] = useState(false)
   const [confirmRidePopupPanel, setConfirmRidePopupPanel] = useState(false)
   const [ride, setRide] = useState(null)
 
@@ -39,28 +39,34 @@ const CaptainHome = () => {
     if (captain) {
       socket.emit('join', { userId: captain._id, userType: 'captain' })
     }
-  }, [captain])
 
-  // useEffect(() => {
-  //   const updateLocation = () => {
-  //     if (navigator.geolocation && captain) {
-  //       navigator.geolocation.getCurrentPosition(position => {
-  //         sendMessage('update-location-captain', {
-  //           userId: captain._id,
-  //           location: {
-  //             ltd: position.coords.latitude,
-  //             lng: position.coords.longitude
-  //           }
-  //         })
-  //       })
-  //     }
-  //   }
+    const updateLocation = () => {
+      if (navigator.geolocation && captain) {
+        navigator.geolocation.getCurrentPosition(position => {
 
-  //   const locationInterval = setInterval(updateLocation, 10000)
-  //   updateLocation()
+          socket.emit('update-location-captain', {
+            userId: captain._id,
+            location: {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude
+            }
+          })
+        })
+      }
+    }
 
-  //   return () => clearInterval(locationInterval)
-  // }, [captain])
+    const locationInterval = setInterval(updateLocation, 10000)
+    updateLocation()
+
+    // return () => clearInterval(locationInterval)
+  }, [])
+
+  socket.on('new-ride', (data) => {
+    console.log('New ride received:', data);
+    setRide(data);
+    setRidePopupPanel(true);
+  })
+
 
   useGSAP(() => {
     if (ridePopupPanel) {
@@ -87,13 +93,15 @@ const CaptainHome = () => {
   }, [confirmRidePopupPanel])
 
   const confirmRide = async () => {
-    const token = localStorage.getItem('token')
+
+    console.log("ride is confirmed");
 
     const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/rides/confirm`, {
-      rideId: ride._id
+      rideId: ride._id,
+      captain: captain._id
     }, {
       headers: {
-        Authorization: `Bearer ${token}`
+        Authorization: `Bearer ${localStorage.getItem('token')}`
       }
     })
 
@@ -123,16 +131,16 @@ const CaptainHome = () => {
 
       <div ref={ridePopupPanelRef} className='fixed w-full z-10 bottom-0 translate-y-full bg-black/20 backdrop-blur-md rounded-3xl px-4 py-6'>
         <RidePopup
-          // ride={ride}
+          ride={ride}
           setRidePopupPanel={setRidePopupPanel}
           setConfirmRidePopupPanel={setConfirmRidePopupPanel}
-        // confirmRide={confirmRide}
+          confirmRide={confirmRide}
         />
       </div>
       <div ref={confirmRidePopupPanelRef} className='fixed w-full h-screen z-10 bottom-0 translate-y-full bg-white px-4 py-6'>
         <ConfirmRidePopupPanel
-        // setConfirmRidePopupPanel={setConfirmRidePopupPanel}
-        />
+          ride={ride}
+       />
       </div>
     </div>
   )

@@ -1,22 +1,76 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { FaCommentDots, FaPhoneAlt, FaTrashAlt } from 'react-icons/fa';
 import { RiMapPinUserFill, RiMapPin2Fill, RiCurrencyLine } from "react-icons/ri";
-import { Link } from 'react-router-dom';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const ConfirmRidePopupPanel = (props) => {
 
   const inputs = [useRef(), useRef(), useRef(), useRef(), useRef(), useRef()];
+  const [otp, setOtp] = useState(['', '', '', '', '', '']);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const navigate = useNavigate();
 
   const handleChange = (e, index) => {
     const value = e.target.value;
     if (value.length === 1 && index < inputs.length - 1) {
       inputs[index + 1].current.focus();
     }
+    
+    // Update OTP state
+    const newOtp = [...otp];
+    newOtp[index] = value;
+    setOtp(newOtp);
   };
 
   const handleBackspace = (e, index) => {
     if (e.key === "Backspace" && !e.target.value && index > 0) {
       inputs[index - 1].current.focus();
+    }
+  };
+
+  const submitHandler = async () => {
+    const otpValue = otp.join('');
+    
+    if (otpValue.length !== 6) {
+      alert('Please enter a valid 6-digit OTP');
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_BASE_URL}/rides/start-ride`,
+        {
+          rideId: props.ride?._id,
+          otp: otpValue
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+          }
+        }
+      );
+
+      if (response.status === 200) {
+        alert('Ride started successfully!');
+
+        navigate('/Captain-riding', { state: { ride: props.ride } });
+
+        if (props.onRideStarted) {
+          props.onRideStarted(response.data);
+        }
+      }
+    } catch (error) {
+      console.error('Error starting ride:', error);
+      if (error.response?.data?.error) {
+        alert(error.response.data.error);
+      } else {
+        alert('Failed to start ride. Please try again.');
+      }
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -35,7 +89,7 @@ const ConfirmRidePopupPanel = (props) => {
             alt=""
           />
           <h2 className="text-xl font-semibold text-black">
-            Billy Eilish
+            {props.ride?.user.fullname.firstname} {props.ride?.user.fullname.lastname}
           </h2>
         </div>
         <h5 className="text-lg font-bold text-black">📍 2.2 KM</h5>
@@ -44,18 +98,18 @@ const ConfirmRidePopupPanel = (props) => {
       {/* Ride Details */}
       <div className=" bg-gray-200 text-gray-800 rounded-xl overflow-hidden shadow-xl divide-y divide-gray-200">
         <div className="flex items-start gap-4 p-4">
-          <RiMapPinUserFill className="text-blue-600 text-4xl mt-[-8px]" />
+          <RiMapPinUserFill className="text-blue-600 text-xl" />
           <div>
             <h4 className="text-sm font-bold">Pickup</h4>
-            <p className="text-base text-gray-700">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Impedit, voluptatem.</p>
+            <p className="text-base text-gray-700">{props.ride?.pickup}</p>
           </div>
         </div>
 
         <div className="flex items-start gap-4 p-4">
-          <RiMapPin2Fill className="text-red-500 text-4xl mt-[-8px]" />
+          <RiMapPin2Fill className="text-red-500 text-xl" />
           <div>
             <h4 className="text-sm font-bold">Drop-off</h4>
-            <p className="text-base text-gray-700">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Impedit, voluptatem.</p>
+            <p className="text-base text-gray-700">{props.ride?.destination}</p>
           </div>
         </div>
 
@@ -63,24 +117,24 @@ const ConfirmRidePopupPanel = (props) => {
 
       <div className=" rounded-xl py-8 px-4 w-full max-w-sm mx-auto">
         {/* Fare Summary */}
-        <div className="mb-5">
+        <div className="mb-5 mt-4">
           <h4 className="text-xs font-semibold text-gray-500 mb-2">TRIP FARE</h4>
           <div className="flex justify-between text-base font-medium mb-1">
             <span>Apple Pay</span>
-            <span>$15.00</span>
+            <span>₹.15.00</span>
           </div>
           <div className="flex justify-between text-base font-medium mb-1">
             <span>Discount</span>
-            <span>$10.00</span>
+            <span>₹.10.00</span>
           </div>
           <div className="flex justify-between text-base font-bold">
             <span>Paid amount</span>
-            <span>$25.00</span>
+            <span>₹.{props.ride?.fare}</span>
           </div>
         </div>
 
         {/* Action Buttons */}
-        <div className="flex justify-between items-center gap-2">
+        <div className="flex justify-between items-center gap-2 mt-14">
           {/* Call Button */}
           <button className="flex-1 flex flex-col items-center justify-center bg-green-100 hover:bg-green-200 text-green-700 font-medium py-2 rounded-lg transition">
             <FaPhoneAlt className="text-xl mb-1" />
@@ -110,6 +164,7 @@ const ConfirmRidePopupPanel = (props) => {
               ref={ref}
               type="text"
               maxLength={1}
+              value={otp[index]}
               onChange={(e) => handleChange(e, index)}
               onKeyDown={(e) => handleBackspace(e, index)}
               className="w-10 h-12 text-center text-xl font-bold border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -123,10 +178,13 @@ const ConfirmRidePopupPanel = (props) => {
 
       {/* Action Buttons */}
       <div className="flex text-center mt-6">
-        <Link to="/Captain-riding" className="bg-black/20 backdrop-blur-md text-black font-semibold py-2 px-6 rounded-md transition w-full"
+        <button 
+          onClick={submitHandler}
+          disabled={isSubmitting}
+          className="bg-black/20 backdrop-blur-md text-black font-semibold py-2 px-6 rounded-md transition w-full disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          Go to Pickup
-        </Link>
+          {isSubmitting ? 'Starting Ride...' : 'Go to Pickup'}
+        </button>
       </div>
     </div>
   );

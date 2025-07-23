@@ -15,6 +15,7 @@ import Riding from './Riding';
 import { SocketContext } from '../context/SocketContext';
 import { UserDataContext } from '../context/UserContext';
 import { Socket } from 'socket.io-client';
+import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
 
@@ -30,6 +31,7 @@ const Home = () => {
   const [waitingDriver, setWaitingDriver] = useState(false);
   const [driverDetails, setDriverDetails] = useState(false);
   const [riding, setRiding] = useState(false);
+  const [ride, setRide] = useState(null);
 
   const [fare, setfare] = useState({})
   const [vehicleType, setVehicleType] = useState(null)
@@ -46,11 +48,24 @@ const Home = () => {
 
   const { user } = useContext(UserDataContext);
 
- useEffect(() => {
-  console.log("🎯 Home - User data:", user);
-  socket.emit("join", { userId: user?._id, userType: 'user' });
- }, [user]);
+  const navigate = useNavigate();
 
+  useEffect(() => {
+    socket.emit("join", { userId: user?._id, userType: 'user' });
+  }, [user]);
+
+  socket.on("ride-confirmed", (ride) => {
+    console.log("Ride confirmed:", ride);
+    setDriverDetails(true);
+    setWaitingDriver(false);
+    setRide(ride);
+  });
+
+  socket.on("ride-started", (ride) => {
+    console.log("Ride started:", ride);
+    setDriverDetails(false);
+    navigate('/riding', { state: { ride } });
+  })
 
   // Cleanup debounce timer on unmount
   useEffect(() => {
@@ -322,8 +337,10 @@ const Home = () => {
           vehicleType={vehicleType}
         />
       </div>
-      <div ref={driverDetailsRef} className='fixed z-20 bottom-0 bg-white w-full h-screen px-6 translate-y-full '>
-        <WaitingForDriver />
+      <div 
+      ref={driverDetailsRef} 
+      className='fixed z-20 bottom-0 bg-white w-full h-screen px-6 translate-y-full '>
+        <WaitingForDriver ride={ride} />
       </div>
       <div ref={ridingRef} className='fixed z-20 bottom-0 bg-white w-full h-screen translate-y-full'>
         <Riding />
