@@ -14,12 +14,12 @@ const CaptainDetails = () => {
 
   return (
     <>
-      <div className="h-72 py-6 px-4 fixed bottom-0 w-full bg-black/20 backdrop-blur-md text-white shadow-2xl rounded-t-3xl z-10 font-[Inter]">
+      <div className="">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
           <div className="relative">
             <img
-              className="h-14 w-14 rounded-full object-cover border-2 border-white shadow-lg"
+              className="h-14 w-14 rounded-full object-cover border-2 border-green-400 shadow-lg"
               src="kartik_1.jpg"
               alt="Profile"
             />

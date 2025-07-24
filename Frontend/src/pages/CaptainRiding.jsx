@@ -14,8 +14,6 @@ const CaptainRiding = () => {
     const rideData = location.state?.ride;
     const navigate = useNavigate();
 
-    console.log("Captain Ride Data:", rideData);
-
     const paymentRef = useRef(null)
 
     async function endRide() {

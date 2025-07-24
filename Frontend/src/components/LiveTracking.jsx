@@ -137,6 +137,7 @@ const LiveTracking = ({ ride, userType = 'user' }) => {
       navigator.geolocation.clearWatch(watchIdRef.current);
       watchIdRef.current = null;
     }
+    
     setIsTracking(false);
   };
 
@@ -176,6 +177,40 @@ const LiveTracking = ({ ride, userType = 'user' }) => {
       stopTracking();
     };
   }, []);
+
+  // Console logging effect that uses current location state
+  useEffect(() => {
+    let logInterval;
+    
+    if (isTracking) {
+      // Set up interval for logging location name every 3 seconds
+      logInterval = setInterval(async () => {
+        if (currentLocation && ORS_API_KEY) {
+          try {
+            const response = await axios.get(
+              `https://api.openrouteservice.org/geocode/reverse?api_key=${ORS_API_KEY}&point.lat=${currentLocation.lat}&point.lon=${currentLocation.lng}`
+            );
+            const locationName = response.data?.features?.[0]?.properties?.label || 'Location not found';
+            console.log('📍 Current Location:', locationName);
+          } catch (err) {
+            console.log('📍 Current Location: Unable to get address');
+            console.error('Geocoding error:', err.message);
+          }
+        } else if (currentLocation) {
+          console.log('📍 Current Location: Coordinates available but no API key for address lookup');
+        } else {
+          console.log('⏳ Waiting for location data...');
+        }
+      }, 3000);
+    }
+
+    return () => {
+      if (logInterval) {
+        clearInterval(logInterval);
+        console.log('🛑 Location name logging stopped');
+      }
+    };
+  }, [isTracking, currentLocation, ORS_API_KEY]);
 
   return (
     <div className="w-full h-full relative">

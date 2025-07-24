@@ -54,8 +54,7 @@ const ConfirmRidePopupPanel = (props) => {
       );
 
       if (response.status === 200) {
-        alert('Ride started successfully!');
-
+      
         navigate('/Captain-riding', { state: { ride: props.ride } });
 
         if (props.onRideStarted) {

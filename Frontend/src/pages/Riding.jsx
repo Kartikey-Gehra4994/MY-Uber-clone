@@ -21,9 +21,6 @@ const Riding = () => {
 
     const paymentRef = useRef(null)
 
-    // Debug log to check if ride data is received
-    console.log("Ride data in Riding component:", ride);
-
     useEffect(() => {
         if (!socket) return; // Prevent crash if socket is null
 
@@ -40,16 +37,55 @@ const Riding = () => {
     }, [socket, navigate]);
 
 
-    const handleConfirm = () => {
+    const handleConfirm = async () => {
         setLoading(true);
-        setTimeout(() => {
-            setLoading(false);
-            // setConfirmRidePanel(false);
-            // props.setWaitingDriver(true);
-            // props.setVehicleFound(true);
-            // props.createRide();
-            navigate('/home');
-        }, 2000);
+
+        try {
+            const res = await fetch(`${import.meta.env.VITE_BASE_URL}/payment/create-order`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ amount: ride.fare, rideId: ride._id }),
+            });
+
+            const order = await res.json();
+
+            const options = {
+                key: import.meta.env.VITE_RAZORPAY_KEY_ID, // Use your Razorpay Key ID
+                amount: order.amount,
+                currency: order.currency,
+                name: "Uber Clone",
+                description: "Ride Payment",
+                order_id: order.id,
+                handler: async function (response) {
+                    const verifyRes = await fetch(`${import.meta.env.VITE_BASE_URL}/payment/verify`, {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ ...response, rideId: ride._id }),
+                    });
+
+                    const data = await verifyRes.json();
+                    if (data.success) {
+                        alert("Payment successful!");
+                        navigate("/home");
+                    } else {
+                        alert("Payment verification failed");
+                    }
+                },
+                prefill: {
+                    name: "Kartik Gehra",
+                    email: "kartik@example.com",
+                    contact: "9999999999",
+                },
+                theme: { color: "#6366F1" },
+            };
+
+            const rzp = new window.Razorpay(options);
+            rzp.open();
+        } catch (err) {
+            alert("Payment Error");
+        }
+
+        setLoading(false);
     };
 
     useGSAP(() => {
@@ -125,9 +161,7 @@ const Riding = () => {
                     <button
                         onClick={handleConfirm}
                         disabled={loading}
-                        className={`w-full py-3 px-6 rounded-full border border-white/20 backdrop-blur-md shadow-lg relative text-white font-bold transition-all duration-300 flex justify-center items-center overflow-hidden
-    ${loading ? 'bg-white/10 cursor-not-allowed' : 'bg-white/10 hover:bg-white/20'}
-  `}
+                        className={`w-full py-3 px-6 rounded-full border border-white/20 backdrop-blur-md shadow-lg relative text-white font-bold transition-all duration-300 flex justify-center items-center overflow-hidden ${loading ? 'bg-white/10 cursor-not-allowed' : 'bg-white/10 hover:bg-white/20'} `}
                     >
                         {/* Gradient Glow Background */}
                         <span className="absolute inset-0 rounded-full bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 opacity-80 blur-lg"></span>
