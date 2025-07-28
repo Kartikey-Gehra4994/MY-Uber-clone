@@ -16,7 +16,7 @@ const ConfirmRidePopupPanel = (props) => {
     if (value.length === 1 && index < inputs.length - 1) {
       inputs[index + 1].current.focus();
     }
-    
+
     // Update OTP state
     const newOtp = [...otp];
     newOtp[index] = value;
@@ -31,7 +31,7 @@ const ConfirmRidePopupPanel = (props) => {
 
   const submitHandler = async () => {
     const otpValue = otp.join('');
-    
+
     if (otpValue.length !== 6) {
       alert('Please enter a valid 6-digit OTP');
       return;
@@ -54,7 +54,7 @@ const ConfirmRidePopupPanel = (props) => {
       );
 
       if (response.status === 200) {
-      
+
         navigate('/Captain-riding', { state: { ride: props.ride } });
 
         if (props.onRideStarted) {
@@ -84,7 +84,7 @@ const ConfirmRidePopupPanel = (props) => {
         <div className="flex items-center gap-3">
           <img
             className="h-12 w-12 rounded-full object-cover border-2 border-white"
-            src="https://i.pinimg.com/236x/af/26/28/af26280b0ca305be47df0b799ed1b12b.jpg"
+            src="https://pyxis.nymag.com/v1/imgs/709/49e/f9dc751d511c907f02808dad68cfea1341-13-billie-eilish.rsquare.w400.jpg"
             alt=""
           />
           <h2 className="text-xl font-semibold text-black">
@@ -166,18 +166,18 @@ const ConfirmRidePopupPanel = (props) => {
               value={otp[index]}
               onChange={(e) => handleChange(e, index)}
               onKeyDown={(e) => handleBackspace(e, index)}
-              className="w-10 h-12 text-center text-xl font-bold border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-10 h-12 text-center text-xl text-green-600 font-bold border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           ))}
         </div>
         <p className="text-center text-sm text-gray-500 mt-3">
-          We’ve sent a 6-digit code to your number
+          We’ve sent a 6-digit code to user
         </p>
       </div>
 
       {/* Action Buttons */}
       <div className="flex text-center mt-6">
-        <button 
+        <button
           onClick={submitHandler}
           disabled={isSubmitting}
           className="bg-black/20 backdrop-blur-md text-black font-semibold py-2 px-6 rounded-md transition w-full disabled:opacity-50 disabled:cursor-not-allowed"

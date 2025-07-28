@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, useEffect, useState } from 'react';
 import { io } from 'socket.io-client';
 
 export const SocketContext = createContext();
@@ -26,16 +26,10 @@ const SocketProvider = ({ children }) => {
         });
 
         setSocket(socketInstance);
-
-        // Cleanup on component unmount
-        // return () => {
-        //     console.log('🧹 Cleaning up socket connection');
-        //     socketInstance.disconnect();
-        // };
     }, []);
 
     return (
-        <SocketContext.Provider value={{ socket }} > 
+        <SocketContext.Provider value={{ socket }} >
             {children}
         </SocketContext.Provider>
     );

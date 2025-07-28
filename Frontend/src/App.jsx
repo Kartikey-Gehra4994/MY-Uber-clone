@@ -15,12 +15,11 @@ import CaptainLogout from './pages/CptainLogout'
 import Riding from './pages/Riding'
 import CaptainRiding from './pages/captainRiding'
 
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 const App = () => {
-
-  const ans = useContext(UserDataContext)
-  // console.log(ans);
-
-
+  
   return (
     <div className=''>
       <Routes>
@@ -52,6 +51,8 @@ const App = () => {
           </CaptainProtectWrapper>
         } />
       </Routes>
+
+      <ToastContainer position="top-center" theme="dark" />
     </div>
   )
 }

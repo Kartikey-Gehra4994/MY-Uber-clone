@@ -137,7 +137,7 @@ const LiveTracking = ({ ride, userType = 'user' }) => {
       navigator.geolocation.clearWatch(watchIdRef.current);
       watchIdRef.current = null;
     }
-    
+
     setIsTracking(false);
   };
 
@@ -165,7 +165,7 @@ const LiveTracking = ({ ride, userType = 'user' }) => {
     };
 
     socket.on('location-updated', handleLocationUpdate);
-    
+
     return () => {
       socket.off('location-updated', handleLocationUpdate);
     };
@@ -181,7 +181,7 @@ const LiveTracking = ({ ride, userType = 'user' }) => {
   // Console logging effect that uses current location state
   useEffect(() => {
     let logInterval;
-    
+
     if (isTracking) {
       // Set up interval for logging location name every 3 seconds
       logInterval = setInterval(async () => {
@@ -227,11 +227,10 @@ const LiveTracking = ({ ride, userType = 'user' }) => {
           </div>
           <button
             onClick={isTracking ? stopTracking : startTracking}
-            className={`px-3 py-1 rounded text-sm font-medium ${
-              isTracking 
-                ? 'bg-red-500 hover:bg-red-600 text-white' 
-                : 'bg-blue-500 hover:bg-blue-600 text-white'
-            }`}
+            className={`px-3 py-1 rounded text-sm font-medium ${isTracking
+              ? 'bg-red-500 hover:bg-red-600 text-white'
+              : 'bg-blue-500 hover:bg-blue-600 text-white'
+              }`}
           >
             {isTracking ? 'Stop Tracking' : 'Start Tracking'}
           </button>
@@ -252,30 +251,30 @@ const LiveTracking = ({ ride, userType = 'user' }) => {
         style={{ width: '100%', height: '100%' }}
         className="rounded-lg"
       >
-        <TileLayer 
+        <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         />
 
         {/* Map Updater Component */}
-        <MapUpdater 
-          currentLocation={currentLocation} 
-          targetLocation={targetLocation} 
+        <MapUpdater
+          currentLocation={currentLocation}
+          targetLocation={targetLocation}
           mapRef={mapRef}
         />
 
         {/* Current User Location Marker */}
         {currentLocation && (
-          <Marker 
-            position={[currentLocation.lat, currentLocation.lng]} 
+          <Marker
+            position={[currentLocation.lat, currentLocation.lng]}
             icon={userType === 'captain' ? captainIcon : userIcon}
           />
         )}
 
         {/* Target Location Marker */}
         {targetLocation && (
-          <Marker 
-            position={[targetLocation.lat, targetLocation.lng]} 
+          <Marker
+            position={[targetLocation.lat, targetLocation.lng]}
             icon={userType === 'captain' ? userIcon : captainIcon}
           />
         )}

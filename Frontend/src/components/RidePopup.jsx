@@ -7,14 +7,14 @@ const RidePopUp = (props) => {
         <div className="rounded-3xl w-[100%] text-gray-900">
 
             {/* Title */}
-            <h3 className="text-2xl font-bold  text-gray-100 mb-4">New Ride Available!</h3>
+            <h3 className="text-2xl font-bold  text-blue-200 mb-4">New Ride Available!</h3>
 
             {/* Rider Info */}
             <div className="flex items-center justify-between  px-2 rounded-xl mb-5">
                 <div className="flex items-center gap-3">
                     <img
                         className="h-12 w-12 rounded-full object-cover border-2 border-white"
-                        src="https://i.pinimg.com/236x/af/26/28/af26280b0ca305be47df0b799ed1b12b.jpg"
+                        src="https://pyxis.nymag.com/v1/imgs/709/49e/f9dc751d511c907f02808dad68cfea1341-13-billie-eilish.rsquare.w400.jpg"
                         alt=""
                     />
                     <h2 className="text-xl font-semibold text-white">
@@ -46,7 +46,7 @@ const RidePopUp = (props) => {
                     <RiCurrencyLine className="text-green-500 text-xl" />
                     <div>
                         <h4 className="text-sm font-bold">Fare</h4>
-                        <p className="text-base text-gray-200">₹{props.ride?.fare}</p>
+                        <p className="text-base text-gray-200">₹.{props.ride?.fare}</p>
                     </div>
                 </div>
             </div>
@@ -60,7 +60,7 @@ const RidePopUp = (props) => {
                     Ignore
                 </button>
                 <button
-                    onClick={() => { 
+                    onClick={() => {
                         props.setConfirmRidePopupPanel(true);
                         props.setRidePopupPanel(false);
                         props.confirmRide();

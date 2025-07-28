@@ -14,7 +14,6 @@ import WaitingForDriver from '../components/WaitingForDriver';
 import Riding from './Riding';
 import { SocketContext } from '../context/SocketContext';
 import { UserDataContext } from '../context/UserContext';
-import { Socket } from 'socket.io-client';
 import { useNavigate } from 'react-router-dom';
 import UserProfile from '../components/UserProfile';
 
@@ -235,31 +234,31 @@ const Home = () => {
     }
   }, [riding]);
 
-   useGSAP(() => {
-      if (addressPanel) {
-        gsap.to(addressPanelRef.current, {
-          transform: 'translateX(0%)',   
-        })
-      } else {
-        gsap.to(addressPanelRef.current, {
-          transform: 'translateX(-100%)',
-        })
-      }
-    }, [addressPanel])
+  useGSAP(() => {
+    if (addressPanel) {
+      gsap.to(addressPanelRef.current, {
+        transform: 'translateX(0%)',
+      })
+    } else {
+      gsap.to(addressPanelRef.current, {
+        transform: 'translateX(-100%)',
+      })
+    }
+  }, [addressPanel])
 
-   useGSAP(() => {
-      if (userProfilePanel) {
-        gsap.to(ProfilePanelRef.current, {
-          transform: 'translateX(0%)',   
-          opacity: 1
-        })
-      } else {
-        gsap.to(ProfilePanelRef.current, {
-          transform: 'translateX(100%)',
-          opacity: 0
-        })
-      }
-    }, [userProfilePanel])
+  useGSAP(() => {
+    if (userProfilePanel) {
+      gsap.to(ProfilePanelRef.current, {
+        transform: 'translateX(0%)',
+        opacity: 1
+      })
+    } else {
+      gsap.to(ProfilePanelRef.current, {
+        transform: 'translateX(100%)',
+        opacity: 0
+      })
+    }
+  }, [userProfilePanel])
 
   const showProfilePanel = () => {
     setUserProfilePanel(true);
@@ -270,18 +269,18 @@ const Home = () => {
     <div className='h-screen relative overflow-hidden'>
       <img className='w-16 absolute left-5 top-5' src="https://upload.wikimedia.org/wikipedia/commons/c/cc/Uber_logo_2018.png" alt="" />
       <div onClick={showProfilePanel} className='absolute right-5 top-5'>
-        <img className='w-10 rounded-full border-2 border-green-400' src="https://i.pinimg.com/236x/af/26/28/af26280b0ca305be47df0b799ed1b12b.jpg" alt="" />
+        <img className='w-10 rounded-full border-2 border-green-400' src="https://pyxis.nymag.com/v1/imgs/709/49e/f9dc751d511c907f02808dad68cfea1341-13-billie-eilish.rsquare.w400.jpg" alt="" />
       </div>
       <img className='w-full h-[80vh] object-cover' src="https://i.pinimg.com/736x/fe/92/0d/fe920d9bafa13170e5bcca919ec10efd.jpg" alt="" />
 
-   <div ref={ProfilePanelRef} className='fixed w-full top-0 h-screen translate-x-full opacity-0 bg-black/50 backdrop-blur-lg text-white shadow-2xl z-20'>
-        <UserProfile 
+      <div ref={ProfilePanelRef} className='fixed w-full top-0 h-screen translate-x-full opacity-0 bg-black/50 backdrop-blur-lg text-white shadow-2xl z-20 flex items-center justify-center p-4'>
+        <UserProfile
           setUserProfilePanel={setUserProfilePanel}
           setAddressPanel={setAddressPanel}
         />
       </div>
 
-      <div ref={addressPanelRef} className="w-full px-6 pt-8 pb-3 bg-white shadow-lg z-20 absolute bottom-0 left-0 right-0 max-w-md mx-auto">
+      <div ref={addressPanelRef} className="w-full px-6 pt-8 pb-3 bg-[#f5fafe] shadow-lg z-20 absolute bottom-0 left-0 right-0 max-w-md mx-auto">
         <div className=''>
           {/* Title */}
           <div className="flex items-center justify-between mb-4">
@@ -314,7 +313,7 @@ const Home = () => {
                   onChange={handlePickupChange}
                   type="text"
                   placeholder="Add a pick-up location"
-                  className="bg-gray-100 placeholder-gray-500 px-4 py-2 rounded-md w-full outline-none"
+                  className="bg-gray-200 placeholder-gray-500 px-4 py-2 rounded-md w-full outline-none"
                 />
               </div>
 
@@ -330,7 +329,7 @@ const Home = () => {
                   onChange={handleDestinationChange}
                   type="text"
                   placeholder="Enter your destination"
-                  className="bg-gray-100 placeholder-gray-500 px-4 py-2 rounded-md w-full outline-none"
+                  className="bg-gray-200 placeholder-gray-500 px-4 py-2 rounded-md w-full outline-none"
                 />
               </div>
             </form>

@@ -24,16 +24,16 @@ const CaptainProtectWrapper = ({ children }) => {
             }
         }).then((response) => {
             if (response.status === 200) {
-                 setCaptain(response.data.captain)
+                setCaptain(response.data.captain)
                 setisLoading(false)
             }
         })
-        .catch((error) => {
-            console.log("❌ Error fetching captain profile:", error);
-            localStorage.removeItem('token')
-            navigate('/captain-login')
-        })
-    }, [ token ])
+            .catch((error) => {
+                console.log("❌ Error fetching captain profile:", error);
+                localStorage.removeItem('token')
+                navigate('/captain-login')
+            })
+    }, [token])
 
     if (isLoading) {
         return <div className="flex items-center justify-center h-screen">

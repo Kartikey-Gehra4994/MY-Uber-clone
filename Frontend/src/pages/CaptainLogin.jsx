@@ -34,38 +34,69 @@ const Captainlogin = () => {
     }
 
     return (
-        <div className='px-5 py-3 h-screen flex flex-col justify-between'>
+        <div className="min-h-screen bg-white flex flex-col justify-between items-center px-4 py-4">
 
-            <div>
-                <img className='w-[80px] mb-2' src="https://www.svgrepo.com/show/505031/uber-driver.svg" alt="" />
-                <form onSubmit={(e) => submitHandler(e)}>
-                    <h3 className='text-lg font-medium mb-2'>what's our Captain's email</h3>
+            {/* Black top section with icon */}
+            <div className="w-full max-w-sm rounded-bl-[100px] bg-black h-52 flex justify-center items-center">
+                <img
+                    className="w-24"
+                    src="https://freelogopng.com/images/all_img/1659761425uber-driver-logo-png.png"
+                    alt="User Icon"
+                />
+            </div>
+
+            {/* Form section */}
+            <div className="w-full max-w-sm -mt-8">
+                <h3 className="text-2xl font-bold text-center mb-10">Captain Login</h3>
+                <form onSubmit={submitHandler} className="bg-white p-4 rounded-xl">
+
+                    <label className="text-sm font-medium mb-1 block">E-mail</label>
                     <input
-                        className='bg-[#eeeeee] mb-7 rounded px-4 py-2 border w-full text-lg placeholder:text-base'
+                        className="bg-gray-100 mb-5 rounded-lg px-4 py-2 border border-gray-300 w-full text-base placeholder:text-sm"
                         required
                         type="email"
                         value={email}
                         onChange={(e) => setemail(e.target.value)}
-                        placeholder='email@example.com' />
+                        placeholder="Hello@dream.com"
+                    />
 
-                    <h3 className='text-lg font-medium mb-2'>Enter Password</h3>
+                    <label className="text-sm font-medium mb-1 block">Password</label>
                     <input
-                        className='bg-[#eeeeee] mb-7 rounded px-4 py-2 border w-full text-lg placeholder:text-base'
+                        className="bg-gray-100 mb-1 rounded-lg px-4 py-2 border border-gray-300 w-full text-base placeholder:text-sm"
                         required
                         type="password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
-                        placeholder='example.password' />
-                    <button className='bg-[#111] text-white font-semibold mb-3 rounded px-4 py-2 w-full text-lg placeholder:text-base'>Login</button>
-                    <p className='text-center'>Join a fleet <Link to='/captain-signup' className='text-blue-600'>Register as a Captain</Link></p>
+                        placeholder="********"
+                    />
+                    <p className="text-xs text-right text-gray-500 mb-5 cursor-pointer hover:underline">
+                        Forget Password?
+                    </p>
+
+                    <button className="bg-black text-white font-semibold rounded-lg px-4 py-2 w-full text-base transition-all hover:opacity-90">
+                        Login
+                    </button>
+
+                    <p className="text-center text-sm mt-4">
+                        Don’t have any account?{' '}
+                        <Link to="/captain-signup" className="text-blue-600 font-semibold hover:underline">
+                            Sign Up
+                        </Link>
+                    </p>
                 </form>
             </div>
 
-            <div>
-                <Link to='/login' className='bg-blue-600 flex items-center justify-center text-white font-semibold mb-5 rounded px-4 py-2 w-full text-lg placeholder:text-base'>Sign as User</Link>
+            {/* Sign as User button */}
+            <div className="w-full flex justify-center mb-4">
+                <Link
+                    to="/login"
+                    className="bg-gray-600 flex items-center justify-center text-white font-semibold rounded-lg px-6 py-2 w-[90%] text-base transition-all"
+                >
+                    Sign as User
+                </Link>
             </div>
         </div>
-    )
+    );
 }
 
 export default Captainlogin

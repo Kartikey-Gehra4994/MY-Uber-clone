@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react'
 import { FaSpinner } from 'react-icons/fa';
-import { RiMapPinUserFill, RiMapPin2Fill, RiArrowDownWideFill, RiCurrencyLine } from 'react-icons/ri'
+import { RiMapPinUserFill, RiArrowDownWideFill, RiCurrencyLine } from 'react-icons/ri'
 import { useGSAP } from '@gsap/react';
 import { useLocation } from 'react-router-dom';
 import gsap from 'gsap';
@@ -9,6 +9,7 @@ import { useEffect, useContext } from 'react';
 import { SocketContext } from '../context/SocketContext';
 import LiveTracking from '../components/LiveTracking';
 
+import { toast } from 'react-toastify';
 
 const Riding = () => {
 
@@ -65,11 +66,13 @@ const Riding = () => {
 
                     const data = await verifyRes.json();
                     if (data.success) {
-                        alert("Payment successful!");
+                        // ✅ Show toast on success
+                        toast.success("🎉 Payment successful!");
                         navigate("/home");
                     } else {
-                        alert("Payment verification failed");
+                        toast.error("❌ Payment verification failed");
                     }
+
                 },
                 prefill: {
                     name: "Kartik Gehra",
@@ -82,7 +85,7 @@ const Riding = () => {
             const rzp = new window.Razorpay(options);
             rzp.open();
         } catch (err) {
-            alert("Payment Error");
+            toast.error("💥 Payment Error");
         }
 
         setLoading(false);
@@ -125,14 +128,14 @@ const Riding = () => {
                         />
                     </div>
                     <div className="text-right">
-                        <h2 className="text-xl font-semibold">
+                        <h2 className="text-lg font-medium">
                             {ride?.captain?.fullname?.firstname || 'Driver'} {ride?.captain?.fullname?.lastname || 'Name'}
                         </h2>
-                        <p className="text-base text-gray-500">
-                            {ride?.captain?.vehicle?.color || 'White'} {ride?.captain?.vehicle?.vehicleType || 'Car'}
-                        </p>
-                        <p className="text-base font-medium text-gray-700">
+                        <p className="text-xl font-bold text-gray-700">
                             {ride?.captain?.vehicle?.plate || 'Loading...'}
+                        </p>
+                        <p className="text-base text-gray-700">
+                            White Hyundai Verna
                         </p>
                     </div>
                 </div>
@@ -154,7 +157,7 @@ const Riding = () => {
                         <RiCurrencyLine className="text-green-600 text-xl mt-1" />
                         <div>
                             <p className="text-base text-gray-500 -mt-1">Cash Payment</p>
-                            <h4 className="text-lg font-semibold">₹{ride?.fare || '0.00'}</h4>
+                            <h4 className="text-lg font-semibold text-green-600">₹.{ride?.fare || '0.00'}</h4>
                         </div>
                     </div>
 

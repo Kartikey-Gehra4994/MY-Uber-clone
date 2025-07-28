@@ -50,7 +50,6 @@ const CaptainHome = () => {
     const locationInterval = setInterval(updateLocation, 10000)
     updateLocation()
 
-    // return () => clearInterval(locationInterval)
   }, [])
 
   socket.on('new-ride', (data) => {
@@ -87,21 +86,21 @@ const CaptainHome = () => {
       })
     }
   }, [confirmRidePopupPanel])
-  
+
   useGSAP(() => {
     if (captainDetailsPanel) {
       gsap.to(captainDetailsPanelRef.current, {
         transform: 'translateX(0%)',
-      
+
       })
     } else {
       gsap.to(captainDetailsPanelRef.current, {
         transform: 'translateX(-100%)',
-   
+
       })
     }
   }, [captainDetailsPanel])
-  
+
   useGSAP(() => {
     if (ProfilePanel) {
       gsap.to(ProfilePanelRef.current, {
@@ -145,10 +144,10 @@ const CaptainHome = () => {
 
       </div>
 
-      <div ref={ProfilePanelRef} className='fixed w-full h-screen translate-x-full opacity-0 bg-black/50 backdrop-blur-lg text-white shadow-2xl z-20'>
-        <CaptainProfile 
-        setProfilePanel={setProfilePanel}
-        setCaptainDetailsPanel={setCaptainDetailsPanel}
+      <div ref={ProfilePanelRef} className='fixed w-full h-screen translate-x-full opacity-0 bg-black/50 backdrop-blur-lg text-white shadow-2xl z-20 px-4 flex items-center justify-center'>
+        <CaptainProfile
+          setProfilePanel={setProfilePanel}
+          setCaptainDetailsPanel={setCaptainDetailsPanel}
         />
       </div>
 

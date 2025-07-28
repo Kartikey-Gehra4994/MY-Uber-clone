@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react'
-import { FaCommentDots, FaPhoneAlt, FaSpinner, FaTrashAlt } from 'react-icons/fa';
-import { RiMapPinUserFill, RiMapPin2Fill, RiArrowDownWideFill, RiCurrencyLine } from 'react-icons/ri'
+import { FaCommentDots, FaPhoneAlt, FaTrashAlt } from 'react-icons/fa';
+import { RiMapPinUserFill, RiMapPin2Fill, RiArrowDownWideFill } from 'react-icons/ri'
 import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
 import { useLocation } from 'react-router-dom';
@@ -123,7 +123,7 @@ const CaptainRiding = () => {
                             </div>
                             <div className="flex justify-between text-base font-bold">
                                 <span>Paid amount</span>
-                                <span>₹.{rideData?.fare}</span>
+                                <span className='text-green-600'>₹.{rideData?.fare}</span>
                             </div>
                         </div>
 

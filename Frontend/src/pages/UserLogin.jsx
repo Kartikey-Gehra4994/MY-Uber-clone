@@ -1,73 +1,100 @@
 import React, { useContext, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { UserDataContext } from '../context/UserContext'
-import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 
 const Userlogin = () => {
+  const [email, setemail] = useState('')
+  const [password, setPassword] = useState('')
+  const { user, setUser } = useContext(UserDataContext)
+  const navigate = useNavigate()
 
-    const [email, setemail] = useState('')
-    const [password, setPassword] = useState('')
-    const [userData, setuserData] = useState({})
+  const submitHandler = async (e) => {
+    e.preventDefault()
 
-    const { user, setUser } = useContext(UserDataContext)
-    const navigate = useNavigate()
+    const userData = { email, password }
 
-    const submitHandler = async (e) => {
-        e.preventDefault();
-      
-        const userData = {
-        email: email,
-        password: password,
-      }
+    const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/users/login`, userData)
 
-      const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/users/login`, userData)
-
-      if (response.status === 200) {
-        const data = response.data;
-        setUser(data.user)
-        localStorage.setItem('token', data.token)
-        navigate('/home');
-        }
-
-        setemail('');
-        setPassword('');
+    if (response.status === 200) {
+      const data = response.data
+      setUser(data.user)
+      localStorage.setItem('token', data.token)
+      navigate('/home')
     }
 
-    return (
-        <div className='p-7 h-screen flex flex-col justify-between'>
+    setemail('')
+    setPassword('')
+  }
 
-            <div>
-                <img className='w-16 mb-10' src="https://freelogopng.com/images/all_img/1659761100uber-logo-png.png" alt="" />
-                <form onSubmit={(e) => submitHandler(e)}>
-                    <h3 className='text-lg font-medium mb-2'>what's your email</h3>
-                    <input
-                        className='bg-[#eeeeee] mb-7 rounded px-4 py-2 border w-full text-lg placeholder:text-base'
-                        required
-                        type="email"
-                        value={email}
-                        onChange={(e) => setemail(e.target.value)}
-                        placeholder='email@example.com' />
+  return (
+    <div className="min-h-screen flex flex-col items-center justify-between bg-white px-4 py-4">
 
-                    <h3 className='text-lg font-medium mb-2'>Enter Password</h3>
-                    <input
-                        className='bg-[#eeeeee] mb-7 rounded px-4 py-2 border w-full text-lg placeholder:text-base'
-                        required
-                        type="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        placeholder='example.password' />
-                    <button className='bg-[#111] text-white font-semibold mb-3 rounded px-4 py-2 w-full text-lg placeholder:text-base'>Login</button>
-                    <p className='text-center'>New here? <Link to='/signup' className='text-blue-600'>Create new Account</Link></p>
-                </form>
-                <p className='text-sm py-5 text-gray-500 leading-tight'>By proceeding, you consent to receiving calls, WhatsApp or SMS/RCS messages, including by automated means, from Uber and its affiliates to the number provided.</p>
-            </div>
-            <div>
-                <Link to='/captain-login' className='bg-green-600 flex items-center justify-center text-white font-semibold mb-2 rounded px-4 py-2 w-full text-lg placeholder:text-base'>Sign as Captain</Link>
-                <p className='text-sm pt-5 text-gray-500 leading-tight'>This site is protected by reCAPTCHA and the <span className='underline text-black'>Google Privacy Policy</span> and <span className='underline text-black'>Terms of Service apply</span>.</p>
-            </div>
-        </div>
-    )
+      {/* Logo Box */}
+      <div className="w-full max-w-sm rounded-bl-[100px] bg-black h-52 flex justify-center items-center">
+        <img
+          className="w-24 invert"
+          src="https://freelogopng.com/images/all_img/1659761100uber-logo-png.png"
+          alt="User Icon"
+        />
+      </div>
+
+      {/* Login Form */}
+      <div className="w-full px-4 mt-[-40px] flex flex-col justify-center">
+        <form onSubmit={submitHandler} className="w-full max-w-md mx-auto">
+          <h2 className="text-center text-2xl font-bold mb-8">Login</h2>
+
+          <label className="block mb-2 font-semibold">E-mail</label>
+          <input
+            type="email"
+            required
+            placeholder="email@example.com"
+            value={email}
+            onChange={(e) => setemail(e.target.value)}
+            className="w-full px-4 py-2 mb-5 rounded border bg-blue-50 focus:outline-none"
+          />
+
+          <label className="block mb-2 font-semibold">Password</label>
+          <input
+            type="password"
+            required
+            placeholder="example.password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="w-full px-4 py-2 mb-2 rounded border bg-blue-50 focus:outline-none"
+          />
+
+          <div className="text-right text-sm text-gray-500 mb-5">
+            <span className="hover:underline cursor-pointer">Forget Password?</span>
+          </div>
+
+          <button
+            type="submit"
+            className="w-full bg-black text-white font-semibold py-2 rounded-lg hover:bg-gray-900 transition"
+          >
+            Login
+          </button>
+
+          <p className="text-center text-sm mt-4">
+            Don't have any account?{' '}
+            <Link to="/signup" className="text-blue-600 hover:underline">
+              Sign Up
+            </Link>
+          </p>
+        </form>
+      </div>
+
+      {/* Footer */}
+      <div className="w-full px-6 mt-10 mb-6 max-w-md mx-auto">
+        <Link
+          to="/captain-login"
+          className="bg-gray-600 flex items-center justify-center text-white font-semibold rounded-lg px-4 py-2 w-full text-base transition-all"
+        >
+          Sign as Captain
+        </Link>
+      </div>
+    </div>
+  )
 }
 
 export default Userlogin

@@ -12,7 +12,7 @@ import { FaPhoneAlt, FaSlideshare } from 'react-icons/fa';
 const WaitingForDriver = (props) => {
     return (
         <div className=' w-full h-[80vh] rounded-2xl '>
-           
+
             <div className="flex justify-between items-center pt-4 pb-6">
                 <h3 className="text-xl font-extrabold  text-transparent bg-gradient-to-r from-indigo-500 to-purple-600 bg-clip-text">
                     Driver Details
@@ -75,7 +75,7 @@ const WaitingForDriver = (props) => {
                     <RiCurrencyLine className="text-xl text-green-600 mt-1" />
                     <div>
                         <p className="text-base text-gray-400">Fare</p>
-                        <h4 className="text-lg font-medium">₹{props.ride?.fare}</h4>
+                        <h4 className="text-lg font-medium">₹.{props.ride?.fare}</h4>
                         <p className="text-sm text-gray-500">Cash Cash</p>
                     </div>
                 </div>

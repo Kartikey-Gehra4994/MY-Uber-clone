@@ -9,7 +9,7 @@ const captainSchema = new mongoose.Schema({
             required: true,
             minlength: [3, 'firstname must be at least 3 characters long'],
         },
-        laastname: {
+        lastname: {
             type: String,
             minlength: [3, 'lastname must be at least 3 characters long'],
         }
@@ -20,7 +20,7 @@ const captainSchema = new mongoose.Schema({
         unique: true,
         lowercase: true,
         trim: true,
-        amtch: [/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/, 'Please fill a valid email address'],
+        match: [/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/, 'Please fill a valid email address'],
     },
     password: {
         type: String,

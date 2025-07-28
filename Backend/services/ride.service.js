@@ -66,10 +66,7 @@ module.exports.createRide = async ({ user, pickup, destination, vehicleType }) =
 }
 
 module.exports.confirmRide = async ({rideId, captain}) => {
-    
-    console.log("Confirming ride with ID:", rideId, " for captain:", captain);
-    
-    
+     
     if (!rideId) {
         throw new Error('Ride ID is required');
     }

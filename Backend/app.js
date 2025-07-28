@@ -11,7 +11,6 @@ const mapsRoutes = require('./routes/maps.routes');
 const rideRoutes = require('./routes/ride.routes');
 const paymentRoutes = require('./routes/paymentRoutes');
 
-
 connectTodb();
 
 app.use(cors());

@@ -37,7 +37,7 @@ const VehiclePanel = (props) => {
                         <p className='text-xs text-gray-400'>Affordable, compact rides</p>
                     </div>
                 </div>
-                <h2 className='text-lg font-bold text-gray-800'>₹{props.fare.car || 0}</h2>
+                <h2 className='text-lg font-bold text-gray-800'>₹.{props.fare.car || 0}</h2>
             </div>
 
             {/* Vehicle Option 2 */}
@@ -51,12 +51,12 @@ const VehiclePanel = (props) => {
                 <div className='flex items-center justify-between'>
                     <img className='h-12 w-16 object-cover rounded' src="https://www.uber-assets.com/image/upload/f_auto,q_auto:eco,c_fill,h_638,w_956/v1649231091/assets/2c/7fa194-c954-49b2-9c6d-a3b8601370f5/original/Uber_Moto_Orange_312x208_pixels_Mobile.png" alt="Moto" />
                     <div className='ml-3 flex-1'>
-                        <h4 className='font-semibold text-base text-gray-800'>Moto <span className='ml-1 text-sm text-gray-500'><i className="ri-user-3-fill"></i> 1</span></h4>
+                        <h4 className='font-semibold text-base text-gray-800'>Bike <span className='ml-1 text-sm text-gray-500'><i className="ri-user-3-fill"></i> 1</span></h4>
                         <p className='text-sm text-gray-500'>3 mins away</p>
                         <p className='text-xs text-gray-400'>Affordable motorcycle rides</p>
                     </div>
                 </div>
-                <h2 className='text-lg font-bold text-gray-800'>₹{props.fare.bike || 0}</h2>
+                <h2 className='text-lg font-bold text-gray-800'>₹.{props.fare.bike || 0}</h2>
             </div>
 
             {/* Vehicle Option 3 */}
@@ -75,7 +75,7 @@ const VehiclePanel = (props) => {
                         <p className='text-xs text-gray-400'>Affordable auto rides</p>
                     </div>
                 </div>
-                <h2 className='text-lg font-bold text-gray-800'>₹{props.fare.auto || 0}</h2>
+                <h2 className='text-lg font-bold text-gray-800'>₹.{props.fare.auto || 0}</h2>
             </div>
         </div>
     )
