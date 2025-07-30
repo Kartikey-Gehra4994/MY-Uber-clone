@@ -3,7 +3,7 @@ import { Route, Routes } from 'react-router-dom'
 import UserLogin from './pages/UserLogin'
 import UserSignup from './pages/UserSignup'
 import CaptainSignup from './pages/CaptainSignup'
-import Captainlogin from './pages/Captainlogin'
+import CaptainLogin from './pages/CaptainLogin'
 import { UserDataContext } from './context/UserContext'
 import Start from './pages/Start'
 import Home from './pages/Home'
@@ -28,7 +28,7 @@ const App = () => {
         <Route path='/riding' element={<Riding />} />
         <Route path='/Captain-riding' element={<CaptainRiding />} />
         <Route path='/signup' element={<UserSignup />} />
-        <Route path='/captain-login' element={<Captainlogin />} />
+        <Route path='/captain-login' element={<CaptainLogin />} />
         <Route path='/captain-signup' element={<CaptainSignup />} />
         <Route path='/home' element={
           <UserProtectWrapper>
