@@ -13,7 +13,7 @@ import CaptainHome from './pages/CaptainHome'
 import CaptainProtectWrapper from './pages/CaptainProtectWrapper'
 import CaptainLogout from './pages/CptainLogout'
 import Riding from './pages/Riding'
-import CaptainRiding from './pages/captainRiding'
+import CaptainRiding from './pages/CaptainRiding'
 
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
